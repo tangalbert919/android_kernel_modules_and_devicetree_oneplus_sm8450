@@ -1,0 +1,163 @@
+From bac142c13614d6d0c2fb8c399880e74658692049 Mon Sep 17 00:00:00 2001
+From: Arian <arian.kulmer@web.de>
+Date: Wed, 6 Jul 2022 18:32:06 +0200
+Subject: [PATCH] Makefile: Add kbuild options from Android.mk to Makefile
+
+Signed-off-by: chandu078 <chandudyavanapelli03@gmail.com>
+Signed-off-by: Bruno Martins <bgcngm@gmail.com>
+Change-Id: I4f6e179985f8f6a21eeb6f93eb87e2ff4b733a26
+---
+ aps/Makefile         |  8 ++++++++
+ offload/Makefile     |  8 ++++++++
+ perf/Makefile        | 14 ++++++++++++++
+ perf_tether/Makefile |  8 ++++++++
+ sch/Makefile         |  8 ++++++++
+ shs/Makefile         |  7 +++++++
+ wlan/Makefile        |  6 ++++++
+ 7 files changed, 59 insertions(+)
+
+diff --git a/aps/Makefile b/aps/Makefile
+index 3b150c8..3c9b871 100644
+--- a/aps/Makefile
++++ b/aps/Makefile
+@@ -1,7 +1,15 @@
+ #By default build for CLD
+ RMNET_APS_SELECT := CONFIG_RMNET_APS=m
++
++DATARMNET_CORE_PATH := datarmnet/core
++RMNET_CORE_PATH := vendor/qcom/opensource/$(DATARMNET_CORE_PATH)
++RMNET_CORE_INC_DIR := $(ANDROID_BUILD_TOP)/$(RMNET_CORE_PATH)
++
+ KBUILD_OPTIONS += $(RMNET_APS_SELECT)
+ KBUILD_OPTIONS += $(KBUILD_EXTRA) # Extra config if any
++KBUILD_OPTIONS += RMNET_CORE_INC_DIR=$(RMNET_CORE_INC_DIR)
++KBUILD_OPTIONS += RMNET_CORE_PATH=$(RMNET_CORE_PATH)
++KBUILD_OPTIONS += DATARMNET_CORE_PATH=$(DATARMNET_CORE_PATH)
+ KBUILD_EXTRA_SYMBOLS := $(M)/../../$(DATARMNET_CORE_PATH)/Module.symvers
+ 
+ M ?= $(shell pwd)
+diff --git a/offload/Makefile b/offload/Makefile
+index d9e9d42..5ad2535 100644
+--- a/offload/Makefile
++++ b/offload/Makefile
+@@ -1,7 +1,15 @@
+ #By default build for CLD
+ RMNET_OFFLOAD_SELECT := CONFIG_RMNET_OFFLOAD=m
++
++DATARMNET_CORE_PATH := datarmnet/core
++RMNET_CORE_PATH := vendor/qcom/opensource/$(DATARMNET_CORE_PATH)
++RMNET_CORE_INC_DIR := $(ANDROID_BUILD_TOP)/$(RMNET_CORE_PATH)
++
+ KBUILD_OPTIONS += $(RMNET_OFFLOAD_SELECT)
+ KBUILD_OPTIONS += $(KBUILD_EXTRA) # Extra config if any
++KBUILD_OPTIONS += RMNET_CORE_INC_DIR=$(RMNET_CORE_INC_DIR)
++KBUILD_OPTIONS += RMNET_CORE_PATH=$(RMNET_CORE_PATH)
++KBUILD_OPTIONS += DATARMNET_CORE_PATH=$(DATARMNET_CORE_PATH)
+ KBUILD_EXTRA_SYMBOLS := $(M)/../../$(DATARMNET_CORE_PATH)/Module.symvers
+ 
+ M ?= $(shell pwd)
+diff --git a/perf/Makefile b/perf/Makefile
+index 33b7f2c..d98097e 100644
+--- a/perf/Makefile
++++ b/perf/Makefile
+@@ -1,7 +1,21 @@
+ #By default build for CLD
+ RMNET_PERF_SELECT := CONFIG_RMNET_PERF=m
++
++DATARMNET_CORE_PATH := datarmnet/core
++DATARMNET_SHS_PATH := datarmnet-ext/shs
++RMNET_CORE_PATH := vendor/qcom/opensource/$(DATARMNET_CORE_PATH)
++RMNET_CORE_INC_DIR := $(ANDROID_BUILD_TOP)/$(RMNET_CORE_PATH)
++RMNET_SHS_PATH := vendor/qcom/opensource/$(DATARMNET_SHS_PATH)
++RMNET_SHS_INC_DIR := $(ANDROID_BUILD_TOP)/$(RMNET_SHS_PATH)
++
+ KBUILD_OPTIONS += $(RMNET_PERF_SELECT)
+ KBUILD_OPTIONS += $(KBUILD_EXTRA) # Extra config if any
++KBUILD_OPTIONS += RMNET_CORE_INC_DIR=$(RMNET_CORE_INC_DIR)
++KBUILD_OPTIONS += RMNET_CORE_PATH=$(RMNET_CORE_PATH)
++KBUILD_OPTIONS += DATARMNET_CORE_PATH=$(DATARMNET_CORE_PATH)
++KBUILD_OPTIONS += RMNET_SHS_INC_DIR=$(RMNET_SHS_INC_DIR)
++KBUILD_OPTIONS += RMNET_SHS_PATH=$(RMNET_SHS_PATH)
++KBUILD_OPTIONS += DATARMNET_SHS_PATH=$(DATARMNET_SHS_PATH)
+ KBUILD_EXTRA_SYMBOLS := $(M)/../../$(DATARMNET_CORE_PATH)/Module.symvers
+ KBUILD_EXTRA_SYMBOLS += $(M)/../../$(DATARMNET_SHS_PATH)/Module.symvers
+ 
+diff --git a/perf_tether/Makefile b/perf_tether/Makefile
+index 4a9ebcd..2ed5368 100644
+--- a/perf_tether/Makefile
++++ b/perf_tether/Makefile
+@@ -1,7 +1,15 @@
+ #By default build for CLD
++DATARMNET_CORE_PATH := datarmnet/core
++
++RMNET_CORE_PATH := vendor/qcom/opensource/$(DATARMNET_CORE_PATH)
++RMNET_CORE_INC_DIR := $(ANDROID_BUILD_TOP)/$(RMNET_CORE_PATH)
+ RMNET_PERF_TETHER_SELECT := CONFIG_RMNET_PERF_TETHER=m
++
+ KBUILD_OPTIONS += $(RMNET_PERF_TETHER_SELECT)
+ KBUILD_OPTIONS += $(KBUILD_EXTRA) # Extra config if any
++KBUILD_OPTIONS += RMNET_CORE_INC_DIR=$(RMNET_CORE_INC_DIR)
++KBUILD_OPTIONS += RMNET_CORE_PATH=$(RMNET_CORE_PATH)
++KBUILD_OPTIONS += DATARMNET_CORE_PATH=$(DATARMNET_CORE_PATH)
+ KBUILD_EXTRA_SYMBOLS := $(M)/../../$(DATARMNET_CORE_PATH)/Module.symvers
+ 
+ M ?= $(shell pwd)
+diff --git a/sch/Makefile b/sch/Makefile
+index b8749ce..9e3c437 100644
+--- a/sch/Makefile
++++ b/sch/Makefile
+@@ -1,6 +1,14 @@
+ #By default build for CLD
+ RMNET_SCH_SELECT := CONFIG_RMNET_SCH=m
++
++DATARMNET_CORE_PATH := datarmnet/core
++RMNET_CORE_PATH := vendor/qcom/opensource/$(DATARMNET_CORE_PATH)
++RMNET_CORE_INC_DIR := $(ANDROID_BUILD_TOP)/$(RMNET_CORE_PATH)
++
+ KBUILD_OPTIONS += $(RMNET_SCH_SELECT)
++KBUILD_OPTIONS += RMNET_CORE_INC_DIR=$(RMNET_CORE_INC_DIR)
++KBUILD_OPTIONS += RMNET_CORE_PATH=$(RMNET_CORE_PATH)
++KBUILD_OPTIONS += DATARMNET_CORE_PATH=$(DATARMNET_CORE_PATH)
+ KBUILD_OPTIONS += $(KBUILD_EXTRA) # Extra config if any
+ 
+ M ?= $(shell pwd)
+diff --git a/shs/Makefile b/shs/Makefile
+index 37be585..5ec553d 100644
+--- a/shs/Makefile
++++ b/shs/Makefile
+@@ -1,7 +1,14 @@
+ KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
+ 
++DATARMNET_CORE_PATH := datarmnet/core
++RMNET_CORE_PATH := vendor/qcom/opensource/$(DATARMNET_CORE_PATH)
++RMNET_CORE_INC_DIR := $(ANDROID_BUILD_TOP)/$(RMNET_CORE_PATH)
++
+ KBUILD_OPTIONS := RMNET_SHS_ROOT=$(PWD)
+ KBUILD_OPTIONS += MODNAME?=rmnet_shs
++KBUILD_OPTIONS += RMNET_CORE_INC_DIR=$(RMNET_CORE_INC_DIR)
++KBUILD_OPTIONS += RMNET_CORE_PATH=$(RMNET_CORE_PATH)
++KBUILD_OPTIONS += DATARMNET_CORE_PATH=$(DATARMNET_CORE_PATH)
+ KBUILD_EXTRA_SYMBOLS := $(M)/../../$(DATARMNET_CORE_PATH)/Module.symvers
+ M ?= $(shell pwd)
+ 
+diff --git a/wlan/Makefile b/wlan/Makefile
+index 8a32d21..d555990 100644
+--- a/wlan/Makefile
++++ b/wlan/Makefile
+@@ -1,7 +1,13 @@
+ #By default build for CLD
+ RMNET_WLAN_SELECT := CONFIG_RMNET_WLAN=m
++DATARMNET_CORE_PATH := datarmnet/core
++RMNET_CORE_PATH := vendor/qcom/opensource/$(DATARMNET_CORE_PATH)
++RMNET_CORE_INC_DIR := $(ANDROID_BUILD_TOP)/$(RMNET_CORE_PATH)
+ KBUILD_OPTIONS += $(RMNET_WLAN_SELECT)
+ KBUILD_OPTIONS += $(KBUILD_EXTRA) # Extra config if any
++KBUILD_OPTIONS += RMNET_CORE_INC_DIR=$(RMNET_CORE_INC_DIR)
++KBUILD_OPTIONS += RMNET_CORE_PATH=$(RMNET_CORE_PATH)
++KBUILD_OPTIONS += DATARMNET_CORE_PATH=$(DATARMNET_CORE_PATH)
+ 
+ M ?= $(shell pwd)
+ 
+-- 
+2.41.0
+

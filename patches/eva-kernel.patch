@@ -1,0 +1,12 @@
+diff --git a/Makefile b/Makefile
+index 89c01ac..5d5ed02 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,5 +1,7 @@
+ KBUILD_OPTIONS+= EVA_ROOT=$(KERNEL_SRC)/$(M)
+ 
++KBUILD_OPTIONS += KBUILD_EXTRA_SYMBOLS=$(ANDROID_BUILD_TOP)/out/vendor/qcom/opensource/mmrm-driver/Module.symvers
++
+ all:
+ 	$(MAKE) -C $(KERNEL_SRC) M=$(M) modules $(KBUILD_OPTIONS)
+ 
